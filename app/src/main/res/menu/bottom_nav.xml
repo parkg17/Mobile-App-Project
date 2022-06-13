@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item1"
+        android:icon="@drawable/shopping"
+        android:title="상품" />
+
+    <item
+        android:id="@+id/item2"
+        android:icon="@drawable/info"
+        android:title="정보" />
+
+    <item
+        android:id="@+id/item3"
+        android:icon="@drawable/basket"
+        android:title="장바구니" />
+
+</menu>

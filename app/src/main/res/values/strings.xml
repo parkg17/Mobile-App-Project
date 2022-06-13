@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Project_2017312665</string>
+    <string name="coffee_n_shopping_n_mall">Coffee \n Shopping \n Mall</string>
+    <string name="kakao_login_button">Kakao Login Button</string>
+    <string name="guest_login_button">Guest Login Button</string>
 </resources>
