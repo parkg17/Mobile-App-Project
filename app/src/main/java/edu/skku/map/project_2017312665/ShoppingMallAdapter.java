@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,7 @@ public class ShoppingMallAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.listview_item, viewGroup, false);
         }
-
+        
         String input_coffee_name = items.get(i).getName();
         String input_coffee_description = items.get(i).getDescription();
         String input_coffee_price = String.valueOf(items.get(i).getPrice()) + "원";
@@ -59,6 +60,34 @@ public class ShoppingMallAdapter extends BaseAdapter {
         String image_path = "@drawable/" + input_coffee_image_name;
         int iResId = mContext.getResources().getIdentifier( image_path, "drawable", mContext.getPackageName() );
         imageview_coffee.setImageResource(iResId);
+
+        imageview_coffee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, i + "번째 이미지 선택", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        textview_coffee_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, i + "번째 커피 이름 선택", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        textview_coffee_description.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, i + "번째 커피 설명 선택", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        textview_coffee_price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, i + "번째 커피 가격 선택", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }

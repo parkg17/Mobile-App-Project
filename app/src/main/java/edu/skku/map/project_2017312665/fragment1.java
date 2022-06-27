@@ -1,7 +1,9 @@
 package edu.skku.map.project_2017312665;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -40,9 +42,22 @@ public class fragment1 extends Fragment {
                 " 숙성된 포도의 맛과 혀끝에 길게 남는 달콤한 향기.", "brazil", 14900));
         coffee_list.setAdapter(shoppingMallAdapter);
 
+        ShoppingMallActivity activity = (ShoppingMallActivity) getActivity();
+
+        view.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d("TEST","현재 포커스=>"+activity.getCurrentFocus());
+                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    //do something
+                }
+                return true;
+            }
+        });
+
         coffee_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Log.d("TEST","현재 포커스=>"+activity.getCurrentFocus());
                 CoffeeItemData coffeeData = (CoffeeItemData) shoppingMallAdapter.getItem(position);
                 Toast.makeText(view.getContext(), coffeeData.getName(), Toast.LENGTH_SHORT).show();
             }
