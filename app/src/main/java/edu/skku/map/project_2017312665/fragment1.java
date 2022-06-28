@@ -1,5 +1,6 @@
 package edu.skku.map.project_2017312665;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;

@@ -1,5 +1,6 @@
 package edu.skku.map.project_2017312665;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,9 +14,12 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class ShoppingMallActivity extends AppCompatActivity {
 
+    public static Context mContext;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_mall);
+        mContext = this;
 
         Intent intent = getIntent();
         String user_id = intent.getStringExtra(MainActivity.EXT_ID);
@@ -56,4 +60,14 @@ public class ShoppingMallActivity extends AppCompatActivity {
             }
         });
     }
+    public void open_CoffeeGoodsActivity(String name, String price, String desc, String img_name) {
+        Intent intent = new Intent(ShoppingMallActivity.this, CoffeeGoodsActivity.class);
+        intent.putExtra("COFFEE_NAME", name);
+        intent.putExtra("COFFEE_PRICE", price);
+        intent.putExtra("COFFEE_DESCRIPTION", desc);
+        intent.putExtra("COFFEE_IMG_NAME", img_name);
+        startActivity(intent);
+    }
 }
+
+

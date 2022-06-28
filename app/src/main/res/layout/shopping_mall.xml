@@ -18,7 +18,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="#ffffff"
+        android:background="#212121"
+        app:itemIconTint="@drawable/fragment_selected_color"
+        app:itemTextColor="@drawable/fragment_selected_color"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_nav" />
 

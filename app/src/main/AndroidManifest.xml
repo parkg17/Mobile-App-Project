@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name=".CoffeeGoodsActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".ShoppingMallActivity"
             android:exported="true">
         </activity>

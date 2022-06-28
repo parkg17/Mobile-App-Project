@@ -1,6 +1,7 @@
 package edu.skku.map.project_2017312665;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,28 +65,32 @@ public class ShoppingMallAdapter extends BaseAdapter {
         imageview_coffee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, i + "번째 이미지 선택", Toast.LENGTH_SHORT).show();
+                ((ShoppingMallActivity)ShoppingMallActivity.mContext).open_CoffeeGoodsActivity(
+                        input_coffee_name, input_coffee_price, input_coffee_description, input_coffee_image_name);
             }
         });
 
         textview_coffee_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, i + "번째 커피 이름 선택", Toast.LENGTH_SHORT).show();
+                ((ShoppingMallActivity)ShoppingMallActivity.mContext).open_CoffeeGoodsActivity(
+                        input_coffee_name, input_coffee_price, input_coffee_description, input_coffee_image_name);
             }
         });
 
         textview_coffee_description.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, i + "번째 커피 설명 선택", Toast.LENGTH_SHORT).show();
+                ((ShoppingMallActivity)ShoppingMallActivity.mContext).open_CoffeeGoodsActivity(
+                        input_coffee_name, input_coffee_price, input_coffee_description, input_coffee_image_name);
             }
         });
 
         textview_coffee_price.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, i + "번째 커피 가격 선택", Toast.LENGTH_SHORT).show();
+                ((ShoppingMallActivity)ShoppingMallActivity.mContext).open_CoffeeGoodsActivity(
+                        input_coffee_name, input_coffee_price, input_coffee_description, input_coffee_image_name);
             }
         });
 
