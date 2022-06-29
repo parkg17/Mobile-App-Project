@@ -43,7 +43,8 @@ public class ShoppingMallAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.listview_item, viewGroup, false);
         }
-        
+
+        /* Declaration Text, Image and Setting them */
         String input_coffee_name = items.get(i).getName();
         String input_coffee_description = items.get(i).getDescription();
         String input_coffee_price = String.valueOf(items.get(i).getPrice()) + "원";
@@ -62,37 +63,19 @@ public class ShoppingMallAdapter extends BaseAdapter {
         int iResId = mContext.getResources().getIdentifier( image_path, "drawable", mContext.getPackageName() );
         imageview_coffee.setImageResource(iResId);
 
-        imageview_coffee.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((ShoppingMallActivity)ShoppingMallActivity.mContext).open_CoffeeGoodsActivity(
-                        input_coffee_name, input_coffee_price, input_coffee_description, input_coffee_image_name);
-            }
-        });
+        /* List Item Click Event */
+        View view_array[] = new View[] {textview_coffee_name, textview_coffee_price,
+                                        textview_coffee_description, imageview_coffee};
 
-        textview_coffee_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((ShoppingMallActivity)ShoppingMallActivity.mContext).open_CoffeeGoodsActivity(
-                        input_coffee_name, input_coffee_price, input_coffee_description, input_coffee_image_name);
-            }
-        });
-
-        textview_coffee_description.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((ShoppingMallActivity)ShoppingMallActivity.mContext).open_CoffeeGoodsActivity(
-                        input_coffee_name, input_coffee_price, input_coffee_description, input_coffee_image_name);
-            }
-        });
-
-        textview_coffee_price.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((ShoppingMallActivity)ShoppingMallActivity.mContext).open_CoffeeGoodsActivity(
-                        input_coffee_name, input_coffee_price, input_coffee_description, input_coffee_image_name);
-            }
-        });
+        for (int view_idx = 0; view_idx < 4; ++view_idx) {
+            view_array[view_idx].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((ShoppingMallActivity)ShoppingMallActivity.mContext).open_CoffeeGoodsActivity(
+                            input_coffee_name, input_coffee_price, input_coffee_description, input_coffee_image_name);
+                }
+            });
+        }
 
         return view;
     }
