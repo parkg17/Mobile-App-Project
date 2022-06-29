@@ -2,6 +2,8 @@ package edu.skku.map.project_2017312665;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coffee_goods);
 
+        /* Taking Data from Intent */
         Intent intent = getIntent();
         String coffee_name = intent.getStringExtra("COFFEE_NAME");
         String coffee_price = intent.getStringExtra("COFFEE_PRICE");
@@ -32,5 +35,18 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
         int iResId = this.getResources().getIdentifier( image_path, "drawable", this.getPackageName() );
         imageview_coffee.setImageResource(iResId);
 
+        /* Setting Button Function */
+        ImageButton btn_back = (ImageButton) findViewById(R.id.Btn_back);
+        ImageButton btn_shopping_cart = (ImageButton) findViewById(R.id.Btn_shopping_cart);
+        Button btn_basket = (Button) findViewById(R.id.Btn_basket);
+        Button btn_purchase = (Button) findViewById(R.id.Btn_purchase);
+
+        btn_back.setOnClickListener(view -> {
+            finish();
+        });
+
+        btn_shopping_cart.setOnClickListener(view -> {
+            finish();
+        });
     }
 }
