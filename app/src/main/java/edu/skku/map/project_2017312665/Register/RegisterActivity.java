@@ -1,4 +1,4 @@
-package edu.skku.map.project_2017312665;
+package edu.skku.map.project_2017312665.Register;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,9 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 
+import edu.skku.map.project_2017312665.Data.LoginData;
+import edu.skku.map.project_2017312665.R;
+import edu.skku.map.project_2017312665.ReadFileClass;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -22,6 +25,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    ReadFileClass readFileClass = new ReadFileClass();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             OkHttpClient client = new OkHttpClient();
 
-            String cite_name = "https://mfinzgll7f.execute-api.ap-northeast-2.amazonaws.com/dev/access";
+            String cite_name = readFileClass.readLoginAddressText(view);
             HttpUrl.Builder urlBuilder = HttpUrl.parse(cite_name).newBuilder();
             urlBuilder.addQueryParameter("id", reg_ids);
             String url = urlBuilder.build().toString();

@@ -1,4 +1,4 @@
-package edu.skku.map.project_2017312665;
+package edu.skku.map.project_2017312665.ShoppingMall;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,14 +8,17 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 
-public class fragment3 extends Fragment {
+import edu.skku.map.project_2017312665.Data.CoffeeItemData;
+import edu.skku.map.project_2017312665.R;
+
+public class fragment_shopping_basket extends Fragment {
     private ListView coffee_list;
     private ShoppingMallAdapter shoppingMallAdapter;
     private ArrayList<CoffeeItemData> items;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment3, container, false);
+        View view =  inflater.inflate(R.layout.fragment_shopping_basket, container, false);
 
         coffee_list = view.findViewById(R.id.Coffeebasket);
         items = new ArrayList<CoffeeItemData>();

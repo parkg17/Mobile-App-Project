@@ -16,6 +16,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import edu.skku.map.project_2017312665.Data.LoginData;
+import edu.skku.map.project_2017312665.Register.RegisterActivity;
+import edu.skku.map.project_2017312665.ShoppingMall.ShoppingMallActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -25,6 +28,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    ReadFileClass readFileClass = new ReadFileClass();
     boolean isNewActivity = false;
 
     @Override
@@ -43,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
             OkHttpClient client = new OkHttpClient();
 
-            String cite_name = readLoginAddressText();
+            String cite_name = readFileClass.readLoginAddressText(view);
             HttpUrl.Builder urlBuilder = HttpUrl.parse(cite_name).newBuilder();
             urlBuilder.addQueryParameter("id", input_ids);
             String url = urlBuilder.build().toString();
@@ -99,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
+    /*
     private String readLoginAddressText() {
         int idx;
         String data = null;
@@ -118,6 +122,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return data;
-    }
+    }*/
 }
 

@@ -1,4 +1,4 @@
-package edu.skku.map.project_2017312665;
+package edu.skku.map.project_2017312665.Data;
 
 public class CoffeeItemData {
     private String name;

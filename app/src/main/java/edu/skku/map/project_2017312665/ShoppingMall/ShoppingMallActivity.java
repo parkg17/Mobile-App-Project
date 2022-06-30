@@ -1,4 +1,4 @@
-package edu.skku.map.project_2017312665;
+package edu.skku.map.project_2017312665.ShoppingMall;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import edu.skku.map.project_2017312665.CoffeeGoods.CoffeeGoodsActivity;
+import edu.skku.map.project_2017312665.R;
 
 public class ShoppingMallActivity extends AppCompatActivity {
 
@@ -32,15 +35,15 @@ public class ShoppingMallActivity extends AppCompatActivity {
         bundle.putString("name", user_name);
         bundle.putString("phone", user_phone);
 
-        Fragment fragment1 = new fragment1();
-        Fragment fragment2 = new fragment2();
-        Fragment fragment3 = new fragment3();
+        Fragment fragment1 = new fragment_goods();
+        Fragment fragment2 = new fragment_information();
+        Fragment fragment3 = new fragment_shopping_basket();
 
         fragment2.setArguments(bundle);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.nav_bar);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.frame, new fragment1()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frame, new fragment_goods()).commit();
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

@@ -1,4 +1,4 @@
-package edu.skku.map.project_2017312665;
+package edu.skku.map.project_2017312665.CoffeeGoods;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import edu.skku.map.project_2017312665.R;
 
 public class CoffeeGoodsActivity extends AppCompatActivity {
     @Override
