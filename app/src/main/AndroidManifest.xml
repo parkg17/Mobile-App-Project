@@ -13,6 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name=".CoffeeGoods.ImageActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".CoffeeGoods.CoffeeGoodsActivity"
             android:exported="true">
         </activity>

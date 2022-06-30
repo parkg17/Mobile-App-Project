@@ -1,14 +1,21 @@
 package edu.skku.map.project_2017312665.CoffeeGoods;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Pair;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
+
 import edu.skku.map.project_2017312665.R;
+import edu.skku.map.project_2017312665.ShoppingMall.ShoppingMallActivity;
 
 public class CoffeeGoodsActivity extends AppCompatActivity {
     @Override
@@ -41,6 +48,17 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
         ImageButton btn_shopping_cart = (ImageButton) findViewById(R.id.Btn_shopping_cart);
         Button btn_basket = (Button) findViewById(R.id.Btn_basket);
         Button btn_purchase = (Button) findViewById(R.id.Btn_purchase);
+
+        imageview_coffee.setOnClickListener(view -> {
+            Intent put_intent = new Intent(CoffeeGoodsActivity.this, ImageActivity.class);
+            put_intent.putExtra("COFFEE_IMG_NAME", coffee_img_name);
+
+            ActivityOptions opt =
+                    ActivityOptions.makeSceneTransitionAnimation(CoffeeGoodsActivity.this, view, "img_trans");
+
+            //startActivity(put_intent, optionsCompat.toBundle());
+            startActivity(put_intent, opt.toBundle());
+        });
 
         btn_back.setOnClickListener(view -> {
             finish();

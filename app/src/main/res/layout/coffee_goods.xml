@@ -57,6 +57,7 @@
                 android:layout_height="380dp"
                 android:layout_marginBottom="30dp"
                 tools:srcCompat="@tools:sample/avatars"
+                android:transitionName="img_trans"
                 android:contentDescription="커피 원두 사진" />
 
             <TextView
