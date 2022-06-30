@@ -28,26 +28,30 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    ReadFileClass readFileClass = new ReadFileClass();
-    boolean isNewActivity = false;
+    /* Declare Variables */
+    private String input_ids;
+    private String input_pws;
+    private String cite_name;
+    private Button guest_login_button;
+    private Button register_button;
+    private EditText input_id;
+    private EditText input_pw;
+    private ReadFileClass readFileClass;
+    private boolean isNewActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Button guest_login_button = findViewById(R.id.login_button);
-        Button register_button = findViewById(R.id.Register);
-        EditText input_id = findViewById(R.id.input_id);
-        EditText input_pw = findViewById(R.id.input_pw);
+        setInit();
 
         guest_login_button.setOnClickListener(view -> {
-            String input_ids = input_id.getText().toString();
-            String input_pws = input_pw.getText().toString();
+            input_ids = input_id.getText().toString();
+            input_pws = input_pw.getText().toString();
 
             OkHttpClient client = new OkHttpClient();
 
-            String cite_name = readFileClass.readLoginAddressText(view);
+            cite_name = readFileClass.readLoginAddressText(view);
             HttpUrl.Builder urlBuilder = HttpUrl.parse(cite_name).newBuilder();
             urlBuilder.addQueryParameter("id", input_ids);
             String url = urlBuilder.build().toString();
@@ -103,25 +107,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-    /*
-    private String readLoginAddressText() {
-        int idx;
-        String data = null;
-        InputStream inputStream = getResources().openRawResource(R.raw.aws_login_address);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
-        try {
-            idx = inputStream.read();
-            while (idx != -1) {
-                byteArrayOutputStream.write(idx);
-                idx = inputStream.read();
-            }
-            data = new String(byteArrayOutputStream.toByteArray(),"MS949");
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return data;
-    }*/
+    private void setInit() {
+        guest_login_button = findViewById(R.id.login_button);
+        register_button = findViewById(R.id.Register);
+        input_id = findViewById(R.id.input_id);
+        input_pw = findViewById(R.id.input_pw);
+        readFileClass = new ReadFileClass();
+        isNewActivity = false;
+    }
 }
 

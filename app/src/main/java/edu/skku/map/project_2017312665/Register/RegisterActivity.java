@@ -26,29 +26,34 @@ import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    ReadFileClass readFileClass = new ReadFileClass();
+    /* Declare Variables */
+    private String reg_ids;
+    private String reg_pws;
+    private String reg_names;
+    private String reg_phones;
+    private String cite_name;
+    private Button register_complete_button;
+    private EditText reg_id;
+    private EditText reg_pw;
+    private EditText reg_name;
+    private EditText reg_phone;
+    private ReadFileClass readFileClass;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_page);
-
-        Intent intent = getIntent();
-
-        Button register_complete_button = findViewById(R.id.register_complete);
-        EditText reg_id = findViewById(R.id.reg_id);
-        EditText reg_pw = findViewById(R.id.reg_pw);
-        EditText reg_name = findViewById(R.id.reg_name);
-        EditText reg_phone = findViewById(R.id.reg_phone);
+        getData();
+        setInit();
 
         register_complete_button.setOnClickListener(view -> {
-            String reg_ids = reg_id.getText().toString();
-            String reg_pws = reg_pw.getText().toString();
-            String reg_names = reg_name.getText().toString();
-            String reg_phones = reg_phone.getText().toString();
+            reg_ids = reg_id.getText().toString();
+            reg_pws = reg_pw.getText().toString();
+            reg_names = reg_name.getText().toString();
+            reg_phones = reg_phone.getText().toString();
 
             OkHttpClient client = new OkHttpClient();
 
-            String cite_name = readFileClass.readLoginAddressText(view);
+            cite_name = readFileClass.readLoginAddressText(view);
             HttpUrl.Builder urlBuilder = HttpUrl.parse(cite_name).newBuilder();
             urlBuilder.addQueryParameter("id", reg_ids);
             String url = urlBuilder.build().toString();
@@ -80,6 +85,19 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
         });
+    }
+
+    private void getData() {
+        Intent intent = getIntent();
+    }
+
+    private void setInit() {
+        register_complete_button = findViewById(R.id.register_complete);
+        reg_id = (EditText) findViewById(R.id.reg_id);
+        reg_pw = (EditText) findViewById(R.id.reg_pw);
+        reg_name = (EditText) findViewById(R.id.reg_name);
+        reg_phone = (EditText) findViewById(R.id.reg_phone);
+        readFileClass = new ReadFileClass();
     }
 }
 

@@ -10,8 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import edu.skku.map.project_2017312665.R;
 
 public class ImageActivity extends AppCompatActivity {
+
+    /* Declare Variables */
+    private int iResId;
     private Context mContext;
     private String coffee_img_name;
+    private String image_path;
     private ImageView imageView;
 
     @Override
@@ -26,7 +30,6 @@ public class ImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         mContext = this;
-
     }
 
     private void getData() {
@@ -36,8 +39,8 @@ public class ImageActivity extends AppCompatActivity {
 
     private void setInit() {
         imageView = (ImageView) findViewById(R.id.image_full);
-        String image_path = "@drawable/" + coffee_img_name;
-        int iResId = this.getResources().getIdentifier( image_path, "drawable", this.getPackageName() );
+        image_path = "@drawable/" + coffee_img_name;
+        iResId = this.getResources().getIdentifier( image_path, "drawable", this.getPackageName() );
         imageView.setImageResource(iResId);
 
         imageView.setOnClickListener(view -> {
