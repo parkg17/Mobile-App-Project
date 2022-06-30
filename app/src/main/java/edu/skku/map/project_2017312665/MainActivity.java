@@ -12,7 +12,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -22,10 +24,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String EXT_ID = "User_ID";
-    public static final String EXT_PW = "User_PW";
-    public static final String EXT_NAME = "User_NAME";
-    public static final String EXT_PHONE = "User_PHONE";
+
     boolean isNewActivity = false;
 
     @Override
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
             OkHttpClient client = new OkHttpClient();
 
-            String cite_name = "https://mfinzgll7f.execute-api.ap-northeast-2.amazonaws.com/dev/access";
+            String cite_name = readLoginAddressText();
             HttpUrl.Builder urlBuilder = HttpUrl.parse(cite_name).newBuilder();
             urlBuilder.addQueryParameter("id", input_ids);
             String url = urlBuilder.build().toString();
@@ -82,10 +81,10 @@ public class MainActivity extends AppCompatActivity {
                             if(isNewActivity)  {
                                 isNewActivity = false;
                                 Intent intent = new Intent(MainActivity.this, ShoppingMallActivity.class);
-                                intent.putExtra(EXT_ID, req_id);
-                                intent.putExtra(EXT_PW, req_pw);
-                                intent.putExtra(EXT_NAME, req_name);
-                                intent.putExtra(EXT_PHONE, req_phone);
+                                intent.putExtra("User_ID", req_id);
+                                intent.putExtra("User_PW", req_pw);
+                                intent.putExtra("User_NAME", req_name);
+                                intent.putExtra("User_PHONE", req_phone);
                                 startActivity(intent);
                             }
                         }
@@ -100,4 +99,25 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+    private String readLoginAddressText() {
+        int idx;
+        String data = null;
+        InputStream inputStream = getResources().openRawResource(R.raw.aws_login_address);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        try {
+            idx = inputStream.read();
+            while (idx != -1) {
+                byteArrayOutputStream.write(idx);
+                idx = inputStream.read();
+            }
+            data = new String(byteArrayOutputStream.toByteArray(),"MS949");
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
 }
+

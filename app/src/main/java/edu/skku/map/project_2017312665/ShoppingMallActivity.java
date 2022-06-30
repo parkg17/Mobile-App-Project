@@ -22,10 +22,10 @@ public class ShoppingMallActivity extends AppCompatActivity {
         mContext = this;
 
         Intent intent = getIntent();
-        String user_id = intent.getStringExtra(MainActivity.EXT_ID);
-        String user_pw = intent.getStringExtra(MainActivity.EXT_PW);
-        String user_name = intent.getStringExtra(MainActivity.EXT_NAME);
-        String user_phone = intent.getStringExtra(MainActivity.EXT_PHONE);
+        String user_id = intent.getStringExtra("User_ID");
+        String user_pw = intent.getStringExtra("User_PW");
+        String user_name = intent.getStringExtra("User_NAME");
+        String user_phone = intent.getStringExtra("User_PHONE");
 
         Bundle bundle = new Bundle();
         bundle.putString("id", user_id);
