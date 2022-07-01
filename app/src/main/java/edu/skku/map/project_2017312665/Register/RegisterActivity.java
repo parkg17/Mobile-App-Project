@@ -53,9 +53,12 @@ public class RegisterActivity extends AppCompatActivity {
 
             OkHttpClient client = new OkHttpClient();
 
-            cite_name = readFileClass.readLoginAddressText(view);
+            cite_name = readFileClass.readLoginAddressText(view) + "/adduser";
             HttpUrl.Builder urlBuilder = HttpUrl.parse(cite_name).newBuilder();
             urlBuilder.addQueryParameter("id", reg_ids);
+            urlBuilder.addQueryParameter("password", reg_pws);
+            urlBuilder.addQueryParameter("name", reg_names);
+            urlBuilder.addQueryParameter("phone_num", reg_phones);
             String url = urlBuilder.build().toString();
             Request req = new Request.Builder().url(url).build();
 
@@ -70,15 +73,32 @@ public class RegisterActivity extends AppCompatActivity {
                     Gson gson = new GsonBuilder().create();
                     final LoginData loginData = gson.fromJson(myResponse, LoginData.class);
 
-                    String id = loginData.getId();
-                    String pw = loginData.getPw();
+                    boolean login_success = loginData.isSuccess();
+                    String login_resultDetail = loginData.getResult_detail();
+
                     RegisterActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (!id.equals("NULL")) {
-                                Toast.makeText(getApplicationContext(), "이미 등록된 회원입니다.", Toast.LENGTH_SHORT).show();
-                            } else {
-                                finish();
+                            if(login_success == true) {
+                                reg_id.setText(null);
+                                reg_pw.setText(null);
+                                reg_name.setText(null);
+                                reg_phone.setText(null);
+                                Toast.makeText(getApplicationContext(), "회원 가입 성공", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                if(login_resultDetail.equals("id_duplicated")) {
+                                    Toast.makeText(getApplicationContext(), "이미 존재하는 회원 ID입니다.", Toast.LENGTH_SHORT).show();
+                                }
+                                else if(login_resultDetail.equals("name_empty")) {
+                                    Toast.makeText(getApplicationContext(), "이름을 입력해야 합니다.", Toast.LENGTH_SHORT).show();
+                                }
+                                else if(login_resultDetail.equals("password_empty")) {
+                                    Toast.makeText(getApplicationContext(), "비밀번호를 입력해야 합니다.", Toast.LENGTH_SHORT).show();
+                                }
+                                else if(login_resultDetail.equals("phonenum_empty")) {
+                                    Toast.makeText(getApplicationContext(), "전화번호를 입력해야 합니다.", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
                     });

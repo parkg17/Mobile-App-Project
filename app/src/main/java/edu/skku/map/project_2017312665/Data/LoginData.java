@@ -1,47 +1,27 @@
 package edu.skku.map.project_2017312665.Data;
 
 public class LoginData {
-    private String id;
-    private String pw;
-    private String name;
-    private String phone;
+    private boolean success;
+    private String result_detail;
 
-    public LoginData(String id, String pw, String name, String phone) {
-        this.id = id;
-        this.pw = pw;
-        this.name = name;
-        this.phone = phone;
+    public LoginData(boolean success, String result_detail) {
+        this.success = success;
+        this.result_detail = result_detail;
     }
 
-    public String getId() {
-        return id;
+    public boolean isSuccess() {
+        return success;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
-    public String getPw() {
-        return pw;
+    public String getResult_detail() {
+        return result_detail;
     }
 
-    public void setPw(String pw) {
-        this.pw = pw;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setResult_detail(String result_detail) {
+        this.result_detail = result_detail;
     }
 }

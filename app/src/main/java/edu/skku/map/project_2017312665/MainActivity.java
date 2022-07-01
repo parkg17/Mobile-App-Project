@@ -51,9 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
             OkHttpClient client = new OkHttpClient();
 
-            cite_name = readFileClass.readLoginAddressText(view);
+            cite_name = readFileClass.readLoginAddressText(view) + "/login";
             HttpUrl.Builder urlBuilder = HttpUrl.parse(cite_name).newBuilder();
             urlBuilder.addQueryParameter("id", input_ids);
+            urlBuilder.addQueryParameter("password", input_pws);
             String url = urlBuilder.build().toString();
             Request req = new Request.Builder().url(url).build();
 
@@ -68,31 +69,28 @@ public class MainActivity extends AppCompatActivity {
                     Gson gson = new GsonBuilder().create();
                     final LoginData loginData = gson.fromJson(myResponse, LoginData.class);
 
-                    String req_id = loginData.getId();
-                    String req_pw = loginData.getPw();
-                    String req_name = loginData.getName();
-                    String req_phone = loginData.getPhone();
+                    boolean login_success = loginData.isSuccess();
+                    String login_resultDetail = loginData.getResult_detail();
 
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (req_id.equals("NULL")) {
-                                Toast.makeText(getApplicationContext(), "등록되지 않은 회원입니다.", Toast.LENGTH_SHORT).show();
-                            } else {
-                                if (!req_pw.equals(input_pws)) {
-                                    Toast.makeText(getApplicationContext(), "잘못된 비밀번호 입니다.", Toast.LENGTH_SHORT).show();
+                            if(login_success == false) {
+                                if(login_resultDetail.equals("wrong_id")) {
+                                    Toast.makeText(getApplicationContext(), "등록되지 않은 회원입니다.", Toast.LENGTH_SHORT).show();
                                 }
                                 else {
-                                    isNewActivity = true;
+                                    Toast.makeText(getApplicationContext(), "잘못된 비밀번호 입니다.", Toast.LENGTH_SHORT).show();
                                 }
+                            }
+                            else {
+                                isNewActivity = true;
                             }
                             if(isNewActivity)  {
                                 isNewActivity = false;
                                 Intent intent = new Intent(MainActivity.this, ShoppingMallActivity.class);
-                                intent.putExtra("User_ID", req_id);
-                                intent.putExtra("User_PW", req_pw);
-                                intent.putExtra("User_NAME", req_name);
-                                intent.putExtra("User_PHONE", req_phone);
+                                intent.putExtra("User_ID", input_ids);
+                                intent.putExtra("User_PW", input_pws);
                                 startActivity(intent);
                             }
                         }
