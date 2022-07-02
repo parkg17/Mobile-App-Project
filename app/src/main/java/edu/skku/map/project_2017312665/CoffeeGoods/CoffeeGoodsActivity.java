@@ -3,20 +3,14 @@ package edu.skku.map.project_2017312665.CoffeeGoods;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityOptionsCompat;
 
 import edu.skku.map.project_2017312665.R;
-import edu.skku.map.project_2017312665.ReadFileClass;
-import edu.skku.map.project_2017312665.ShoppingMall.ShoppingMallActivity;
 
 public class CoffeeGoodsActivity extends AppCompatActivity {
 

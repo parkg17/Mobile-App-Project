@@ -26,17 +26,13 @@ public class ShoppingMallActivity extends AppCompatActivity {
     public Fragment fragment_goods;
     public Fragment fragment_information;
     public Fragment fragment_shopping_cart;
+    public BottomNavigationView bottomNavigationView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_mall);
-        mContext = this;
         getData();
         setInit();
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.nav_bar);
-
-        getSupportFragmentManager().beginTransaction().add(R.id.frame, new fragment_goods()).commit();
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -84,6 +80,14 @@ public class ShoppingMallActivity extends AppCompatActivity {
         fragment_information = new fragment_information();
         fragment_shopping_cart = new fragment_shopping_basket();
         fragment_information.setArguments(bundle);
+
+        mContext = this;
+        bottomNavigationView = findViewById(R.id.nav_bar);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.frame, new fragment_goods())
+                .commit();
+
     }
 }
 

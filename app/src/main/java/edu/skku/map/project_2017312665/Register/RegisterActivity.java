@@ -6,27 +6,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
-
-import edu.skku.map.project_2017312665.Data.LoginData;
-import edu.skku.map.project_2017312665.Data.UserData;
-import edu.skku.map.project_2017312665.Data.UserLoginData;
+import edu.skku.map.project_2017312665.Data.LoginResultData;
+import edu.skku.map.project_2017312665.Data.UserNetworkData;
+import edu.skku.map.project_2017312665.NetworkPost;
 import edu.skku.map.project_2017312665.R;
 import edu.skku.map.project_2017312665.ReadFileClass;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.HttpUrl;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import edu.skku.map.project_2017312665.ToastMessageInThread;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -42,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText reg_name;
     private EditText reg_phone;
     private ReadFileClass readFileClass;
+    private ToastMessageInThread toastMessageInThread;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,73 +41,77 @@ public class RegisterActivity extends AppCompatActivity {
         setInit();
 
         register_complete_button.setOnClickListener(view -> {
-            reg_ids = reg_id.getText().toString();
-            reg_pws = reg_pw.getText().toString();
-            reg_names = reg_name.getText().toString();
-            reg_phones = reg_phone.getText().toString();
-
-            OkHttpClient client = new OkHttpClient();
-
             cite_name = readFileClass.readLoginAddressText(view) + "/adduser";
-            HttpUrl.Builder urlBuilder = HttpUrl.parse(cite_name).newBuilder();
+            new Thread(() -> {
+                NetworkPost networkPost = new NetworkPost();
+                String response = networkPost.post(cite_name, processInputJson());
+                processOutputJson(response);
+            }).start();
+        });
+    }
 
-            UserData userData = new UserData();
-            userData.setId(reg_ids);
-            userData.setPassword(reg_pws);
-            userData.setName(reg_names);
-            userData.setPhone_num(reg_phones);
+    private String processInputJson() {
+        UserNetworkData userData = new UserNetworkData();
+        Gson gson = new Gson();
 
-            Gson gson = new Gson();
-            String json = gson.toJson(userData, UserData.class);
+        reg_ids = reg_id.getText().toString();
+        reg_pws = reg_pw.getText().toString();
+        reg_names = reg_name.getText().toString();
+        reg_phones = reg_phone.getText().toString();
 
-            String url = urlBuilder.build().toString();
-            Request req = new Request.Builder()
-                    .url(url)
-                    .post(RequestBody.create(MediaType.parse("application/json"), json))
-                    .build();
+        userData.setId(reg_ids);
+        userData.setPassword(reg_pws);
+        userData.setName(reg_names);
+        userData.setPhone_num(reg_phones);
 
-            client.newCall(req).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    e.printStackTrace();
-                }
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    final String myResponse = response.body().string();
-                    Gson gson = new GsonBuilder().create();
-                    final LoginData loginData = gson.fromJson(myResponse, LoginData.class);
+        String input_json = gson.toJson(userData, UserNetworkData.class);
+        return input_json;
+    }
 
-                    boolean login_success = loginData.isSuccess();
-                    String login_resultDetail = loginData.getResult_detail();
+    private void processOutputJson(String response) {
+        if(response == "ERROR") {
+            Toast.makeText(getApplicationContext(), "네트워크 에러 발생", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-                    RegisterActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(login_success == true) {
-                                reg_id.setText(null);
-                                reg_pw.setText(null);
-                                reg_name.setText(null);
-                                reg_phone.setText(null);
-                                Toast.makeText(getApplicationContext(), "회원 가입 성공", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                if(login_resultDetail.equals("id_duplicated")) {
-                                    Toast.makeText(getApplicationContext(), "이미 존재하는 회원 ID입니다.", Toast.LENGTH_SHORT).show();
-                                }
-                                else if(login_resultDetail.equals("name_empty")) {
-                                    Toast.makeText(getApplicationContext(), "이름을 입력해야 합니다.", Toast.LENGTH_SHORT).show();
-                                }
-                                else if(login_resultDetail.equals("password_empty")) {
-                                    Toast.makeText(getApplicationContext(), "비밀번호를 입력해야 합니다.", Toast.LENGTH_SHORT).show();
-                                }
-                                else if(login_resultDetail.equals("phonenum_empty")) {
-                                    Toast.makeText(getApplicationContext(), "전화번호를 입력해야 합니다.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }
-                    });
-                }
-            });
+        Gson gson = new GsonBuilder().create();
+        final LoginResultData loginData = gson.fromJson(response, LoginResultData.class);
+
+        boolean login_success = loginData.isSuccess();
+        String login_resultDetail = loginData.getResult_detail();
+
+        String toast_message = "";
+
+        if(login_success == true) {
+            FlushEditText();
+            toast_message = "회원 가입 성공";
+        }
+        else {
+            if(login_resultDetail.equals("id_duplicated")) {
+                toast_message = "이미 존재하는 회원 ID입니다.";
+            }
+            else if(login_resultDetail.equals("name_empty")) {
+                toast_message = "이름을 입력해야 합니다.";
+            }
+            else if(login_resultDetail.equals("password_empty")) {
+                toast_message = "비밀번호를 입력해야 합니다.";
+            }
+            else if(login_resultDetail.equals("phonenum_empty")) {
+                toast_message = "전화번호를 입력해야 합니다.";
+            }
+        }
+        toastMessageInThread.ToastMessage(getApplicationContext(), toast_message);
+    }
+
+    private void FlushEditText() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                reg_id.setText(null);
+                reg_pw.setText(null);
+                reg_name.setText(null);
+                reg_phone.setText(null);
+            }
         });
     }
 
@@ -131,6 +126,6 @@ public class RegisterActivity extends AppCompatActivity {
         reg_name = (EditText) findViewById(R.id.reg_name);
         reg_phone = (EditText) findViewById(R.id.reg_phone);
         readFileClass = new ReadFileClass();
+        toastMessageInThread = new ToastMessageInThread();
     }
 }
-

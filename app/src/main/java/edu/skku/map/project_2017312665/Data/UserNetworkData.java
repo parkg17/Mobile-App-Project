@@ -1,6 +1,6 @@
 package edu.skku.map.project_2017312665.Data;
 
-public class UserData {
+public class UserNetworkData implements NetworkData {
     private String id;
     private String password;
     private String name;
