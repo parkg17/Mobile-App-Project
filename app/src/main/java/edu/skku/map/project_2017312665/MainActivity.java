@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,13 +18,16 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import edu.skku.map.project_2017312665.Data.LoginData;
+import edu.skku.map.project_2017312665.Data.UserLoginData;
 import edu.skku.map.project_2017312665.Register.RegisterActivity;
 import edu.skku.map.project_2017312665.ShoppingMall.ShoppingMallActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,10 +57,18 @@ public class MainActivity extends AppCompatActivity {
 
             cite_name = readFileClass.readLoginAddressText(view) + "/login";
             HttpUrl.Builder urlBuilder = HttpUrl.parse(cite_name).newBuilder();
-            urlBuilder.addQueryParameter("id", input_ids);
-            urlBuilder.addQueryParameter("password", input_pws);
+            UserLoginData userLoginData = new UserLoginData();
+            userLoginData.setId(input_ids);
+            userLoginData.setPw(input_pws);
+
+            Gson gson = new Gson();
+            String json = gson.toJson(userLoginData, UserLoginData.class);
+
             String url = urlBuilder.build().toString();
-            Request req = new Request.Builder().url(url).build();
+            Request req = new Request.Builder()
+                    .url(url)
+                    .post(RequestBody.create(MediaType.parse("application/json"), json))
+                    .build();
 
             client.newCall(req).enqueue(new Callback() {
                 @Override

@@ -2,16 +2,9 @@ package edu.skku.map.project_2017312665.Data;
 
 public class UserData {
     private String id;
-    private String pw;
+    private String password;
     private String name;
-    private String phone;
-
-    public UserData(String id, String pw, String name, String phone) {
-        this.id = id;
-        this.pw = pw;
-        this.name = name;
-        this.phone = phone;
-    }
+    private String phone_num;
 
     public String getId() {
         return id;
@@ -21,12 +14,12 @@ public class UserData {
         this.id = id;
     }
 
-    public String getPw() {
-        return pw;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPw(String pw) {
-        this.pw = pw;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {
@@ -37,11 +30,11 @@ public class UserData {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhone_num() {
+        return phone_num;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhone_num(String phone_num) {
+        this.phone_num = phone_num;
     }
 }

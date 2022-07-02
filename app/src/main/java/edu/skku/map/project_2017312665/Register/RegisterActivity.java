@@ -15,13 +15,17 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 
 import edu.skku.map.project_2017312665.Data.LoginData;
+import edu.skku.map.project_2017312665.Data.UserData;
+import edu.skku.map.project_2017312665.Data.UserLoginData;
 import edu.skku.map.project_2017312665.R;
 import edu.skku.map.project_2017312665.ReadFileClass;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -55,12 +59,21 @@ public class RegisterActivity extends AppCompatActivity {
 
             cite_name = readFileClass.readLoginAddressText(view) + "/adduser";
             HttpUrl.Builder urlBuilder = HttpUrl.parse(cite_name).newBuilder();
-            urlBuilder.addQueryParameter("id", reg_ids);
-            urlBuilder.addQueryParameter("password", reg_pws);
-            urlBuilder.addQueryParameter("name", reg_names);
-            urlBuilder.addQueryParameter("phone_num", reg_phones);
+
+            UserData userData = new UserData();
+            userData.setId(reg_ids);
+            userData.setPassword(reg_pws);
+            userData.setName(reg_names);
+            userData.setPhone_num(reg_phones);
+
+            Gson gson = new Gson();
+            String json = gson.toJson(userData, UserData.class);
+
             String url = urlBuilder.build().toString();
-            Request req = new Request.Builder().url(url).build();
+            Request req = new Request.Builder()
+                    .url(url)
+                    .post(RequestBody.create(MediaType.parse("application/json"), json))
+                    .build();
 
             client.newCall(req).enqueue(new Callback() {
                 @Override
