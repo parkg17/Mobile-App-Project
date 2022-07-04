@@ -1,6 +1,6 @@
 package edu.skku.map.project_2017312665.Data;
 
-public class LoginResultData implements NetworkData {
+public class LoginResultData {
     private boolean success;
     private String result_detail;
 

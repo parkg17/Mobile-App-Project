@@ -70,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void processOutputJson(String response) {
         if(response == "ERROR") {
-            Toast.makeText(getApplicationContext(), "네트워크 에러 발생", Toast.LENGTH_SHORT).show();
+            toastMessageInThread.ToastMessage(getApplicationContext(), "네트워크 에러 발생");
             return;
         }
 

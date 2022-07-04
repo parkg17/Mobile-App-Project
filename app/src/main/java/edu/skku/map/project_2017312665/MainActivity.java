@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -11,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.skku.map.project_2017312665.Data.LoginResultData;
+import edu.skku.map.project_2017312665.Data.UserInfoData;
 import edu.skku.map.project_2017312665.Data.UserLoginNetworkData;
 import edu.skku.map.project_2017312665.Register.RegisterActivity;
 import edu.skku.map.project_2017312665.ShoppingMall.ShoppingMallActivity;
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private String input_ids;
     private String input_pws;
     private String cite_name;
+    private String cite_name_append;
     private Button guest_login_button;
     private Button register_button;
     private EditText input_id;
@@ -31,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
     private boolean login_success;
     private String login_resultDetail;
     private ToastMessageInThread toastMessageInThread;
+    private boolean userInfoDataSuccess;
+    private String userInfoDataName;
+    private String userInfoDataPhoneNum;
+    private Thread getUserInfoThread;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +48,11 @@ public class MainActivity extends AppCompatActivity {
         setInit();
 
         guest_login_button.setOnClickListener(view -> {
-            cite_name = readFileClass.readLoginAddressText(view) + "/login";
+            cite_name = readFileClass.readLoginAddressText(view);
+            cite_name_append = cite_name + "/login";
             new Thread(() -> {
                 NetworkPost networkPost = new NetworkPost();
-                String response = networkPost.post(cite_name, processInputJson());
+                String response = networkPost.post(cite_name_append, processInputJson());
                 processOutputJson(response);
             }).start();
         });
@@ -89,10 +99,19 @@ public class MainActivity extends AppCompatActivity {
             isNewActivity = true;
         }
         if(isNewActivity)  {
+            getUserName(input_ids);
+            try {
+                getUserInfoThread.join();
+            } catch (InterruptedException e) {
+
+            }
+
             isNewActivity = false;
             Intent intent = new Intent(MainActivity.this, ShoppingMallActivity.class);
             intent.putExtra("User_ID", input_ids);
             intent.putExtra("User_PW", input_pws);
+            intent.putExtra("User_NAME", userInfoDataName);
+            intent.putExtra("User_PHONE_NUM", userInfoDataPhoneNum);
             startActivity(intent);
         }
     }
@@ -105,6 +124,40 @@ public class MainActivity extends AppCompatActivity {
         readFileClass = new ReadFileClass();
         toastMessageInThread = new ToastMessageInThread();
         isNewActivity = false;
+    }
+
+    private void getUserName(String id) {
+        cite_name_append = cite_name + "/getuser";
+        getUserInfoThread = new Thread() {
+            @Override
+            public void run() {
+                NetworkPost networkPost = new NetworkPost();
+                String response = networkPost.post(cite_name_append, processInputJson());
+                processOutputJsonUserInfo(response);
+            }
+        };
+        getUserInfoThread.start();
+    }
+
+    private void processOutputJsonUserInfo(String response) {
+        if (response == "ERROR") {
+            toastMessageInThread.ToastMessage(getApplicationContext(), "네트워크 에러 발생");
+            userInfoDataName = "Unknown";
+            userInfoDataPhoneNum = "Unknown";
+            return;
+        }
+
+        Gson gson = new GsonBuilder().create();
+        final UserInfoData userInfoData = gson.fromJson(response, UserInfoData.class);
+
+        userInfoDataSuccess = userInfoData.isSuccess();
+        userInfoDataName = userInfoData.getName();
+        userInfoDataPhoneNum = userInfoData.getPhone_num();
+
+        if(userInfoDataSuccess != true) {
+            userInfoDataName = "Unknown";
+            userInfoDataPhoneNum = "Unknown";
+        }
     }
 }
 

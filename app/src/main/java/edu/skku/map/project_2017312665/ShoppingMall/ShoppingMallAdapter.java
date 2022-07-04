@@ -49,7 +49,7 @@ public class ShoppingMallAdapter extends BaseAdapter {
         String input_coffee_name = items.get(i).getName();
         String input_coffee_description = items.get(i).getDescription();
         String input_coffee_price = String.valueOf(items.get(i).getPrice()) + "원";
-        String input_coffee_image_name = items.get(i).getImage_name();
+        String input_coffee_image_name = items.get(i).getId();
 
         TextView textview_coffee_name = (TextView) view.findViewById(R.id.coffee_name);
         TextView textview_coffee_price = (TextView) view.findViewById(R.id.coffee_price);

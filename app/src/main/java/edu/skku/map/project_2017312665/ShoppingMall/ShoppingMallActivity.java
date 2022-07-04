@@ -66,8 +66,8 @@ public class ShoppingMallActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user_id = intent.getStringExtra("User_ID");
         user_pw = intent.getStringExtra("User_PW");
-        user_name = "x";
-        user_phone = "x";
+        user_name = intent.getStringExtra("User_NAME");
+        user_phone = intent.getStringExtra("User_PHONE_NUM");
     }
 
     private void setInit() {
