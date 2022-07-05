@@ -3,7 +3,10 @@ package edu.skku.map.project_2017312665.ShoppingMall;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

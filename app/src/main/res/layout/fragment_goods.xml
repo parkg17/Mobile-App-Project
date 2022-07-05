@@ -1,33 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/coffee_banner_img"
-        android:layout_width="0dp"
+        android:layout_width="250dp"
         android:layout_height="150dp"
-        android:layout_marginStart="49dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="49dp"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/CoffeeListview"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="카페 배너 사진"
+        app:layout_constraintBottom_toBottomOf="@+id/sort_standard_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/coffee_banner_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/coffee_banner" />
 
+    <TextView
+        android:id="@+id/coffee_banner_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        android:text="Coffee \n        List"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/sort_standard_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/coffee_banner_img"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/sort_standard_spinner"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/spinner_background"
+        android:entries="@array/sort_criteria"
+        app:layout_constraintBottom_toTopOf="@+id/CoffeeListview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/coffee_banner_img"
+        app:layout_constraintTop_toBottomOf="@+id/coffee_banner_text" />
+
     <ListView
         android:id="@+id/CoffeeListview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="53dp"
+        android:layout_width="411dp"
+        android:layout_height="450dp"
+        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coffee_banner_img">
-
+        app:layout_constraintTop_toBottomOf="@+id/sort_standard_spinner">
     </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

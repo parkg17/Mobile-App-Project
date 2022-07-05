@@ -6,6 +6,8 @@
         <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/drawable/button_shape.xml" value="0.35" />
         <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/drawable/button_shape_else.xml" value="0.35" />
         <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/drawable/fragment_selected_color.xml" value="0.201" />
+        <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/drawable/sort_standard_spinner.xml" value="0.271" />
+        <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/drawable/spinner_background.xml" value="0.367" />
         <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/drawable/text_backgrounds.xml" value="0.367" />
         <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/drawable/upper_stroke.xml" value="0.227" />
         <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/layout/activity_image.xml" value="0.23385416666666667" />
@@ -15,6 +17,8 @@
         <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/layout/fragment1.xml" value="0.24094202898550723" />
         <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/layout/fragment2.xml" value="0.33" />
         <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/layout/fragment3.xml" value="0.32518115942028986" />
+        <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/layout/fragment_goods.xml" value="0.31741573033707865" />
+        <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/layout/fragment_information.xml" value="0.2515625" />
         <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/layout/gridview_item.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/layout/listview_item.xml" value="0.21508379888268156" />
         <entry key="..\:/Users/parkg/AndroidStudioProjects/Project_2017312665/app/src/main/res/layout/register_page.xml" value="0.33" />
