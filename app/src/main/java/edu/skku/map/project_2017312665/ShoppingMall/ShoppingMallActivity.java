@@ -3,10 +3,7 @@ package edu.skku.map.project_2017312665.ShoppingMall;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +30,7 @@ public class ShoppingMallActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shopping_mall);
+        setContentView(R.layout.activity_shoppingmall);
         getData();
         setInit();
 

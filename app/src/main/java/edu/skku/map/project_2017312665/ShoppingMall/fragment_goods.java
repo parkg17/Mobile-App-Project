@@ -31,6 +31,7 @@ public class fragment_goods extends Fragment {
     private ShoppingMallAdapter shoppingMallAdapter;
     private ArrayList<CoffeeItemData> items;
     private Spinner spinner;
+    private SortJsonArrayClass sortJsonArrayClass;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class fragment_goods extends Fragment {
         try {
             JSONArray coffeeItemJsonArray = new JSONArray(CoffeeItemJsonData);
 
-            if(!sort_criteria.equals("INIT")) {
+            if(!sort_criteria.equals("기본순")) {
                 coffeeItemJsonArray = SortArray(coffeeItemJsonArray, sort_criteria);
             }
 
@@ -75,13 +76,14 @@ public class fragment_goods extends Fragment {
 
                 String coffee_id = coffeeItemJsonObj.getString("Id");
                 String coffee_name = coffeeItemJsonObj.getString("name");
+                Integer coffee_stock = coffeeItemJsonObj.getInt("stock");
                 double coffee_price = coffeeItemJsonObj.getDouble("price");
                 double coffee_rating = coffeeItemJsonObj.getDouble("rating");
                 Grade coffee_grade = Grade.valueOf(coffeeItemJsonObj.getString("grade"));
                 String coffee_expiredDate = coffeeItemJsonObj.getString("expiredDate");
                 String coffee_description = coffeeItemJsonObj.getString("description");
 
-                items.add(new CoffeeItemData(coffee_id, coffee_name, coffee_price,
+                items.add(new CoffeeItemData(coffee_id, coffee_name, coffee_stock, coffee_price,
                         coffee_rating, coffee_grade, coffee_expiredDate, coffee_description));
             }
         } catch (JSONException e){
@@ -97,22 +99,23 @@ public class fragment_goods extends Fragment {
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonValues.add(jsonArray.getJSONObject(i));
             }
-            Collections.sort( jsonValues, new Comparator<JSONObject>() {
-                String KEY_NAME = "name";
-
-                @Override
-                public int compare(JSONObject a, JSONObject b) {
-                    String valA = new String();
-                    String valB = new String();
-                    try {
-                        valA = (String) a.get(KEY_NAME);
-                        valB = (String) b.get(KEY_NAME);
-                    }
-                    catch (JSONException e) {
-                    }
-                    return valA.compareTo(valB);
-                }
-            });
+            switch(sort_criteria) {
+                case "낮은 가격순":
+                    jsonValues = sortJsonArrayClass.sortJsonArrayByDouble(jsonValues, "price", 1);
+                    break;
+                case "높은 가격순":
+                    jsonValues = sortJsonArrayClass.sortJsonArrayByDouble(jsonValues, "price", -1);
+                    break;
+                case "별점 높은순":
+                    jsonValues = sortJsonArrayClass.sortJsonArrayByDouble(jsonValues, "rating", -1);
+                    break;
+                case "별점 낮은순":
+                    jsonValues = sortJsonArrayClass.sortJsonArrayByDouble(jsonValues, "rating", 1);
+                    break;
+                case "이름순":
+                    jsonValues = sortJsonArrayClass.sortJsonArrayByString(jsonValues, "name");
+                    break;
+            }
         }
         catch(JSONException e){
             e.printStackTrace();
@@ -127,8 +130,9 @@ public class fragment_goods extends Fragment {
     private void setInit(View view) {
         coffee_list = view.findViewById(R.id.CoffeeListview);
         spinner = view.findViewById(R.id.sort_standard_spinner);
-        items = getGoods(view, "INIT");
+        items = getGoods(view, "기본순");
         shoppingMallAdapter = new ShoppingMallAdapter(view.getContext(), items);
         coffee_list.setAdapter(shoppingMallAdapter);
+        sortJsonArrayClass = new SortJsonArrayClass();
     }
 }

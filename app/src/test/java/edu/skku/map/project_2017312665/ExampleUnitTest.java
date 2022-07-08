@@ -5,7 +5,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import android.app.Activity;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,7 +20,7 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
         Activity activity = new ShoppingMallActivity();
-        LinearLayout layout = activity.findViewById(R.layout.shopping_mall);
+        LinearLayout layout = activity.findViewById(R.layout.activity_shoppingmall);
         BottomNavigationView bot = layout.findViewById(R.id.nav_bar);
 
         assertEquals(100, bot.getHeight());

@@ -3,15 +3,18 @@ package edu.skku.map.project_2017312665.Data;
 public class CoffeeItemData {
     private String Id;              // 상품 Id
     private String name;            // 상품명
+    private Integer stock;          // 상품 재고
     private double price;           // 상품 가격
     private double rating;          // 상품 평점
     private Grade grade;            // 상품 등급
     private String expiredDate;     // 상품 유통기한
     private String description;     // 상품 설명
 
-    public CoffeeItemData(String id, String name, double price, double rating, Grade grade, String expiredDate, String description) {
+    public CoffeeItemData(String id, String name, Integer stock, double price,
+                          double rating, Grade grade, String expiredDate, String description) {
         Id = id;
         this.name = name;
+        this.stock = stock;
         this.price = price;
         this.rating = rating;
         this.grade = grade;
@@ -33,6 +36,14 @@ public class CoffeeItemData {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     public String getDescription() {

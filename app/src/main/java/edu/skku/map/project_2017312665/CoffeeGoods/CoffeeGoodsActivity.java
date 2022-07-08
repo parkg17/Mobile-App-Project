@@ -33,7 +33,7 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.coffee_goods);
+        setContentView(R.layout.activity_goods);
         getData();
         setInit();
 
