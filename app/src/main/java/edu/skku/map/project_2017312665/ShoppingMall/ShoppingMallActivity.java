@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import edu.skku.map.project_2017312665.CoffeeGoods.CoffeeGoodsActivity;
+import edu.skku.map.project_2017312665.Data.Grade;
 import edu.skku.map.project_2017312665.R;
 
 public class ShoppingMallActivity extends AppCompatActivity {
@@ -53,12 +54,17 @@ public class ShoppingMallActivity extends AppCompatActivity {
         });
     }
 
-    public void open_CoffeeGoodsActivity(String name, String price, String desc, String img_name) {
+    public void open_CoffeeGoodsActivity(String id, String name, Integer stock, double price,
+                                         double rating, Grade grade, String expiredDate, String description) {
         Intent intent = new Intent(ShoppingMallActivity.this, CoffeeGoodsActivity.class);
+        intent.putExtra("COFFEE_ID", id);
         intent.putExtra("COFFEE_NAME", name);
+        intent.putExtra("COFFEE_STOCK", stock);
         intent.putExtra("COFFEE_PRICE", price);
-        intent.putExtra("COFFEE_DESCRIPTION", desc);
-        intent.putExtra("COFFEE_IMG_NAME", img_name);
+        intent.putExtra("COFFEE_RATING", rating);
+        intent.putExtra("COFFEE_GRADE", grade);
+        intent.putExtra("COFFEE_EXPIRED_DATE", expiredDate);
+        intent.putExtra("COFFEE_DESCRIPTION", description);
         startActivity(intent);
     }
 

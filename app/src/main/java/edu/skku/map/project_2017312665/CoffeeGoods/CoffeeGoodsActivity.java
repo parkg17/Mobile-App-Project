@@ -3,6 +3,7 @@ package edu.skku.map.project_2017312665.CoffeeGoods;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -10,16 +11,24 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+
+import edu.skku.map.project_2017312665.Data.Grade;
 import edu.skku.map.project_2017312665.R;
+import edu.skku.map.project_2017312665.ReadFileClass;
 
 public class CoffeeGoodsActivity extends AppCompatActivity {
 
     /* Declare Variables */
     private int iResId;
+    private String coffee_id;
     private String coffee_name;
-    private String coffee_price;
+    private Integer coffee_stock;
+    private Double coffee_price;
+    private Double coffee_rating;
+    private Grade coffee_grade;
+    private String coffee_expiredDate;
     private String coffee_description;
-    private String coffee_img_name;
     private String image_path;
     private TextView textview_coffee_name;
     private TextView textview_coffee_price;
@@ -29,6 +38,8 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
     private ImageButton btn_shopping_cart;
     private Button btn_basket;
     private Button btn_purchase;
+    private ReadFileClass readFileClass;
+    private View goods_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +47,13 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_goods);
         getData();
         setInit();
+        LoadCoffeeImage(goods_view);
+
 
         /* Click Event : Coffee Image */
         imageview_coffee.setOnClickListener(view -> {
             Intent put_intent = new Intent(CoffeeGoodsActivity.this, ImageActivity.class);
-            put_intent.putExtra("COFFEE_IMG_NAME", coffee_img_name);
+            put_intent.putExtra("COFFEE_ID", coffee_id);
 
             ActivityOptions opt = ActivityOptions.makeSceneTransitionAnimation(
                     CoffeeGoodsActivity.this, view, "img_trans");
@@ -61,10 +74,14 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
 
     private void getData() {
         Intent intent = getIntent();
+        coffee_id = intent.getStringExtra("COFFEE_ID");
         coffee_name = intent.getStringExtra("COFFEE_NAME");
-        coffee_price = intent.getStringExtra("COFFEE_PRICE");
+        coffee_stock = intent.getIntExtra("COFFEE_STOCK", 0);
+        coffee_price = intent.getDoubleExtra("COFFEE_PRICE", 0);
+        coffee_rating = intent.getDoubleExtra("COFFEE_RATING", 0);
+        coffee_grade = (Grade) getIntent().getSerializableExtra("COFFEE_GRADE");
+        coffee_expiredDate = intent.getStringExtra("COFFEE_EXPIRED_DATE");
         coffee_description = intent.getStringExtra("COFFEE_DESCRIPTION");
-        coffee_img_name = intent.getStringExtra("COFFEE_IMG_NAME");
     }
 
     private void setInit() {
@@ -74,7 +91,7 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
         imageview_coffee  = (ImageView) findViewById(R.id.coffee_goods_image);
 
         textview_coffee_name.setText(coffee_name);
-        textview_coffee_price.setText(coffee_price);
+        textview_coffee_price.setText(String.valueOf(coffee_price) + "원");
         textview_coffee_description.setText(coffee_description);
 
         btn_back = (ImageButton) findViewById(R.id.Btn_back);
@@ -82,16 +99,13 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
         btn_basket = (Button) findViewById(R.id.Btn_basket);
         btn_purchase = (Button) findViewById(R.id.Btn_purchase);
 
-        image_path = "@drawable/" + coffee_img_name;
-        iResId = this.getResources().getIdentifier( image_path, "drawable", this.getPackageName() );
-        imageview_coffee.setImageResource(iResId);
+        readFileClass = new ReadFileClass();
+        goods_view = getLayoutInflater().inflate(R.layout.activity_goods, null);
+    }
 
-
-        /*
-        ReadFileClass readFileClass = new ReadFileClass();
+    private void LoadCoffeeImage(View view) {
         String cite_name = readFileClass.readImageAddressText(view);
-        String image_path = cite_name + items.get(i).getId() + ".jpg";
+        String image_path = cite_name + coffee_id + ".jpg";
         Glide.with(view).load(image_path).into(imageview_coffee);
-        */
     }
 }
