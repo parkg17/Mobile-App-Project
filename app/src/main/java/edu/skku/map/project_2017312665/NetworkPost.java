@@ -1,5 +1,7 @@
 package edu.skku.map.project_2017312665;
 
+import android.util.Log;
+
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -23,7 +25,7 @@ public class NetworkPost {
 
             Request request = new Request.Builder()
                     .url(url)
-                    .post(RequestBody.create(MediaType.parse("application/json"), json))
+                    .post(RequestBody.create(json, MediaType.parse("application/json")))
                     .build();
 
             response = client.newCall(request).execute();

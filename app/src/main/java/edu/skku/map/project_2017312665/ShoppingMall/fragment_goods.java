@@ -1,6 +1,7 @@
 package edu.skku.map.project_2017312665.ShoppingMall;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,15 +27,19 @@ import java.util.List;
 
 import edu.skku.map.project_2017312665.Data.CoffeeItemData;
 import edu.skku.map.project_2017312665.Data.Grade;
+import edu.skku.map.project_2017312665.Data.LoginResultData;
+import edu.skku.map.project_2017312665.NetworkPost;
 import edu.skku.map.project_2017312665.R;
 import edu.skku.map.project_2017312665.ReadFileClass;
 
 public class fragment_goods extends Fragment {
     private ListView coffee_list;
     private ShoppingMallAdapter shoppingMallAdapter;
-    private ArrayList<CoffeeItemData> items;
-    private Spinner spinner;
     private SortJsonArrayClass sortJsonArrayClass;
+    private ArrayList<CoffeeItemData> items;
+    private String CoffeeItemJsonData;
+    private String cite_name_append;
+    private Spinner spinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,9 +68,29 @@ public class fragment_goods extends Fragment {
     }
 
     public ArrayList<CoffeeItemData> getGoods(View view, String sort_criteria) {
+
         ArrayList<CoffeeItemData> items = new ArrayList<CoffeeItemData>();
-        ReadFileClass readFileClass = new ReadFileClass();
-        String CoffeeItemJsonData = readFileClass.readText(view);
+
+        Thread CoffeeItemThread = new Thread() {
+            @Override
+            public void run() {
+                NetworkPost networkPost = new NetworkPost();
+                String response = networkPost.post(cite_name_append, "");
+                CoffeeItemJsonData = response;
+            }
+        };
+
+        CoffeeItemThread.start();
+
+        try {
+            CoffeeItemThread.join();
+        } catch (InterruptedException e) {
+            System.err.println(e.toString());
+        }
+
+        if (CoffeeItemJsonData.equals("") || CoffeeItemJsonData.equals("ERROR")) {
+            return items;
+        }
 
         try {
             JSONArray coffeeItemJsonArray = new JSONArray(CoffeeItemJsonData);
@@ -74,7 +102,7 @@ public class fragment_goods extends Fragment {
             for(int idx = 0; idx < coffeeItemJsonArray.length(); ++idx) {
                 JSONObject coffeeItemJsonObj = coffeeItemJsonArray.getJSONObject(idx);
 
-                String coffee_id = coffeeItemJsonObj.getString("Id");
+                String coffee_id = coffeeItemJsonObj.getString("id");
                 String coffee_name = coffeeItemJsonObj.getString("name");
                 Integer coffee_stock = coffeeItemJsonObj.getInt("stock");
                 double coffee_price = coffeeItemJsonObj.getDouble("price");
@@ -127,6 +155,12 @@ public class fragment_goods extends Fragment {
         return sortedJsonArray;
     }
 
+    private void CoffeeItemDataNetworkAddressProcess(View view) {
+        ReadFileClass readFileClass = new ReadFileClass();
+        String cite_name = readFileClass.readCoffeeDBAddressText(view);
+        cite_name_append = cite_name + "/getAll";
+    }
+
     private void setInit(View view) {
         coffee_list = view.findViewById(R.id.CoffeeListview);
         spinner = view.findViewById(R.id.sort_standard_spinner);
@@ -134,5 +168,6 @@ public class fragment_goods extends Fragment {
         shoppingMallAdapter = new ShoppingMallAdapter(view.getContext(), items);
         coffee_list.setAdapter(shoppingMallAdapter);
         sortJsonArrayClass = new SortJsonArrayClass();
+        CoffeeItemDataNetworkAddressProcess(view);
     }
 }

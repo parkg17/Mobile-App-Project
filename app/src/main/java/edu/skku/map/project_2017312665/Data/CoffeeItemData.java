@@ -1,7 +1,7 @@
 package edu.skku.map.project_2017312665.Data;
 
 public class CoffeeItemData {
-    private String Id;              // 상품 Id
+    private String id;              // 상품 Id
     private String name;            // 상품명
     private Integer stock;          // 상품 재고
     private double price;           // 상품 가격
@@ -12,7 +12,7 @@ public class CoffeeItemData {
 
     public CoffeeItemData(String id, String name, Integer stock, double price,
                           double rating, Grade grade, String expiredDate, String description) {
-        Id = id;
+        this.id = id;
         this.name = name;
         this.stock = stock;
         this.price = price;
@@ -23,11 +23,11 @@ public class CoffeeItemData {
     }
 
     public String getId() {
-        return Id;
+        return id;
     }
 
     public void setId(String id) {
-        Id = id;
+        id = id;
     }
 
     public String getName() {
