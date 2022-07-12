@@ -85,5 +85,14 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
         image_path = "@drawable/" + coffee_img_name;
         iResId = this.getResources().getIdentifier( image_path, "drawable", this.getPackageName() );
         imageview_coffee.setImageResource(iResId);
+
+        /*
+        ReadFileClass readFileClass = new ReadFileClass();
+        String cite_name = readFileClass.readImageAddressText(view);
+        String image_path = cite_name + items.get(i).getId() + ".jpg";
+        Glide.with(view).load(image_path).into(imageview_coffee);
+
+
+        * */
     }
 }

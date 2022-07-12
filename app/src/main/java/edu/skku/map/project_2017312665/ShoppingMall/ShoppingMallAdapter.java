@@ -8,10 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import edu.skku.map.project_2017312665.Data.CoffeeItemData;
 import edu.skku.map.project_2017312665.R;
+import edu.skku.map.project_2017312665.ReadFileClass;
 
 public class ShoppingMallAdapter extends BaseAdapter {
 
@@ -60,9 +63,10 @@ public class ShoppingMallAdapter extends BaseAdapter {
         textview_coffee_price.setText(input_coffee_price);
         textview_coffee_description.setText(input_coffee_description);
 
-        String image_path = "@drawable/" + input_coffee_image_name;
-        int iResId = mContext.getResources().getIdentifier( image_path, "drawable", mContext.getPackageName() );
-        imageview_coffee.setImageResource(iResId);
+        ReadFileClass readFileClass = new ReadFileClass();
+        String cite_name = readFileClass.readImageAddressText(view);
+        String image_path = cite_name + items.get(i).getId() + ".jpg";
+        Glide.with(view).load(image_path).into(imageview_coffee);
 
         /* List Item Click Event */
         View view_array[] = new View[] {textview_coffee_name, textview_coffee_price,
