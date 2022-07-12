@@ -20,7 +20,7 @@ from config import USER_ID, PW, URL, PORT, DB
 WSGIRequestHandler.protocol_version = "HTTP/1.1"
 
 # (1) Connect to our DB instance
-engine = create_engine("postgresql://{}:{}@{}:{}/{}".format(USER_ID, PW, URL, PORT, DB))
+engine = create_engine("postgresql://{}:{}@{}:{}/{}".format(USER_ID, PW, URL, PORT, DB), encoding='utf8')
 
 
 # (2) Make session to communicate with RDS instance
@@ -36,7 +36,6 @@ class Coffee(Base):
     id = Column(String(30), primary_key=True)
     name = Column(String(30), unique=False)
     stock = Column(Integer, unique=False)
-
     price = Column(Float, unique=False)
     rating = Column(Float, unique=False)
     grade = Column(String(20), unique=False)
@@ -57,11 +56,18 @@ class Coffee(Base):
     def __repr__(self):
         return f'<User {self.id!r}>'
 
+
 # 5) Create all tables (drop_all() method delete all tables)
 Base.metadata.create_all(bind=engine)
 
 app = Flask(__name__)
 s3 = s3_connection()
+
+#############################################################
+#
+#            S3 이미지 업로드 / 다운로드 코드
+#
+#############################################################
 
 @app.route("/upload", methods=['GET'])
 def upload():
@@ -92,6 +98,41 @@ def download():
     ret["link"] = "https://{}.s3.{}.amazonaws.com/{}".format(
         AWS_S3_BUCKET_NAME, AWS_S3_BUCKET_REGION, file_name)
     return jsonify(ret), 200
+
+
+#############################################################
+#
+#                커피 데이터 SQL 관련 코드
+#
+#############################################################
+
+
+@app.route("/addcoffeeByText", methods=['POST'])
+def add_coffee_by_text():
+    contents = request.get_json(silent=True)
+    isExecute = False
+
+    for content in contents:
+        id = content["id"]
+        name = content["name"]
+        stock = content["stock"]
+        price = content["price"]
+        rating = content["rating"]
+        grade = content["grade"]
+        expiredDate = content["expiredDate"]
+        description = content["description"]
+
+        if db_session.query(Coffee).filter_by(id=id).first() is None and id != "NULL":
+            new_coffee_item = Coffee(id=id, name=name, stock=stock, price=price, rating=rating,
+                                     grade=grade, expiredDate=expiredDate, description=description)
+
+            db_session.add(new_coffee_item)
+            isExecute = True
+
+    if isExecute:
+        db_session.commit()
+
+    return jsonify(success=True, result_detail="")
 
 
 @app.route("/addcoffee", methods=['POST'])
@@ -143,7 +184,7 @@ def get_coffee():
 
 
 @app.route("/getAll", methods=['POST'])
-def get_all_users():
+def get_all_coffees():
     query = db_session.query(Coffee).all()
     ret = []
     for i in query:
@@ -174,5 +215,11 @@ def del_coffee():
         return jsonify(success=True, result_detail="success")
 
 
+@app.route("/delAll", methods=['POST'])
+def del_coffee_all():
+    db_session.query(Coffee).delete()
+    db_session.commit()
+    return jsonify(success=True, result_detail="success")
+
 if __name__ == "__main__":
-    app.run(host='localhost', port=8888)
+    app.run(host='localhost', port=8080)
