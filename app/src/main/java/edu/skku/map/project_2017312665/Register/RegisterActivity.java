@@ -1,5 +1,6 @@
 package edu.skku.map.project_2017312665.Register;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -25,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String reg_names;
     private String reg_phones;
     private String cite_name;
+    private String cite_name_append;
     private Button register_complete_button;
     private EditText reg_id;
     private EditText reg_pw;
@@ -32,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText reg_phone;
     private ReadFileClass readFileClass;
     private ToastMessageInThread toastMessageInThread;
+    private Context mContext;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +43,8 @@ public class RegisterActivity extends AppCompatActivity {
         setInit();
 
         register_complete_button.setOnClickListener(view -> {
-            cite_name = readFileClass.readLoginAddressText(view) + "/adduser";
+            cite_name = readFileClass.readText(view, mContext, "aws_login_address");
+            cite_name_append = cite_name + "/adduser";
             new Thread(() -> {
                 NetworkPost networkPost = new NetworkPost();
                 String response = networkPost.post(cite_name, processInputJson());
@@ -126,5 +130,6 @@ public class RegisterActivity extends AppCompatActivity {
         reg_phone = (EditText) findViewById(R.id.reg_phone);
         readFileClass = new ReadFileClass();
         toastMessageInThread = new ToastMessageInThread();
+        mContext = this;
     }
 }

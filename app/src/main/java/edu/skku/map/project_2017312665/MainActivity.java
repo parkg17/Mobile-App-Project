@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
         setInit();
 
         guest_login_button.setOnClickListener(view -> {
-            cite_name = readFileClass.readLoginAddressText(view);
+            cite_name = readFileClass.readText(
+                    view, getApplicationContext(), "aws_login_address");
             cite_name_append = cite_name + "/login";
             new Thread(() -> {
                 NetworkPost networkPost = new NetworkPost();

@@ -1,5 +1,7 @@
 package edu.skku.map.project_2017312665;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
 import java.io.ByteArrayOutputStream;
@@ -8,53 +10,12 @@ import java.io.InputStream;
 
 public class ReadFileClass {
 
-    /* Communicate with AWS Login Address */
-    public String readLoginAddressText(View view) {
+    /* Communicate with AWS Address By raw_file_name */
+    public String readText(View view, Context context, String raw_file_name) {
         int idx;
         String data = null;
-        InputStream inputStream = view.getResources().openRawResource(R.raw.aws_login_address);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-        try {
-            idx = inputStream.read();
-            while (idx != -1) {
-                byteArrayOutputStream.write(idx);
-                idx = inputStream.read();
-            }
-            data = new String(byteArrayOutputStream.toByteArray(),"MS949");
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
-    /* Communicate with AWS Image Address */
-    public String readImageAddressText(View view) {
-        int idx;
-        String data = null;
-        InputStream inputStream = view.getResources().openRawResource(R.raw.aws_image_address);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-        try {
-            idx = inputStream.read();
-            while (idx != -1) {
-                byteArrayOutputStream.write(idx);
-                idx = inputStream.read();
-            }
-            data = new String(byteArrayOutputStream.toByteArray(),"MS949");
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
-    /* Communicate with AWS Image Address */
-    public String readCoffeeDBAddressText(View view) {
-        int idx;
-        String data = null;
-        InputStream inputStream = view.getResources().openRawResource(R.raw.aws_coffee_db_address);
+        int rawNum = view.getResources().getIdentifier(raw_file_name, "raw", context.getPackageName());
+        InputStream inputStream = view.getResources().openRawResource(rawNum);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         try {

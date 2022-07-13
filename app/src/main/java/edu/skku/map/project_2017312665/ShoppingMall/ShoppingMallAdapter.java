@@ -71,7 +71,7 @@ public class ShoppingMallAdapter extends BaseAdapter {
         textview_coffee_description.setText(input_coffee_description);
 
         ReadFileClass readFileClass = new ReadFileClass();
-        String cite_name = readFileClass.readImageAddressText(view);
+        String cite_name = readFileClass.readText(view, mContext, "aws_image_address");
         String image_path = cite_name + items.get(i).getId() + ".jpg";
         Glide.with(view).load(image_path).into(imageview_coffee);
 

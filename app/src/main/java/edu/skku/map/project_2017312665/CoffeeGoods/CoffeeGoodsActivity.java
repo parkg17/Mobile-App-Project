@@ -1,8 +1,10 @@
 package edu.skku.map.project_2017312665.CoffeeGoods;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -40,6 +42,7 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
     private Button btn_purchase;
     private ReadFileClass readFileClass;
     private View goods_view;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +56,7 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
         /* Click Event : Coffee Image */
         imageview_coffee.setOnClickListener(view -> {
             Intent put_intent = new Intent(CoffeeGoodsActivity.this, ImageActivity.class);
-            put_intent.putExtra("COFFEE_ID", coffee_id);
-
+            put_intent.putExtra("COFFEE_ID_for_IMAGE", coffee_id);
             ActivityOptions opt = ActivityOptions.makeSceneTransitionAnimation(
                     CoffeeGoodsActivity.this, view, "img_trans");
 
@@ -101,11 +103,18 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
 
         readFileClass = new ReadFileClass();
         goods_view = getLayoutInflater().inflate(R.layout.activity_goods, null);
+        mContext = this;
     }
 
     private void LoadCoffeeImage(View view) {
-        String cite_name = readFileClass.readImageAddressText(view);
-        String image_path = cite_name + coffee_id + ".jpg";
-        Glide.with(view).load(image_path).into(imageview_coffee);
+        try {
+            String cite_name = readFileClass.readText(view, mContext, "aws_image_address");
+            String image_path = cite_name + coffee_id + ".jpg";
+            Glide.with(view).load(image_path).into(imageview_coffee);
+        }
+        catch(Exception e) {
+            imageview_coffee.setImageResource(R.drawable.x_image);
+            e.printStackTrace();
+        }
     }
 }

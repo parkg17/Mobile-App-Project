@@ -1,8 +1,11 @@
 package edu.skku.map.project_2017312665.CoffeeGoods;
 
+import static java.lang.String.valueOf;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -28,28 +31,38 @@ public class ImageActivity extends AppCompatActivity {
     @Override
     public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
-        getData();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image);
-        setInit();
+        view = getLayoutInflater().inflate(R.layout.activity_image, null);
+        setContentView(view);
         mContext = this;
+        getData();
+        setInit();
+        process_image();
+    }
+
+    private void process_image() {
+        if (view != null) {
+            cite_name = readFileClass.readText(view, mContext, "aws_image_address");
+            image_path = cite_name + coffee_id + ".jpg";
+            Glide.with(view).load(image_path).into(imageView);
+        }
+        else {
+            imageView.setImageResource(R.drawable.x_image);
+        }
     }
 
     private void getData() {
         Intent intent = getIntent();
-        coffee_id = intent.getStringExtra("COFFEE_ID");
+        coffee_id = intent.getStringExtra("COFFEE_ID_for_IMAGE");
     }
 
     private void setInit() {
         imageView = (ImageView) findViewById(R.id.image_full);
-        view = getLayoutInflater().inflate(R.layout.activity_image, null);
-        cite_name = readFileClass.readImageAddressText(view);
-        image_path = cite_name + coffee_id + ".jpg";
-        Glide.with(view).load(image_path).into(imageView);
+        readFileClass = new ReadFileClass();
 
         imageView.setOnClickListener(view -> {
             supportFinishAfterTransition();

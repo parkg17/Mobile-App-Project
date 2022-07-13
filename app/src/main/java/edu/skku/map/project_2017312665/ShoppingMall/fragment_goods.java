@@ -1,5 +1,6 @@
 package edu.skku.map.project_2017312665.ShoppingMall;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,10 +41,12 @@ public class fragment_goods extends Fragment {
     private String CoffeeItemJsonData;
     private String cite_name_append;
     private Spinner spinner;
+    private Context fragment_context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_goods, container, false);
+        fragment_context = container.getContext();
         setInit(view);
 
         spinner.setOnItemSelectedListener (
@@ -157,7 +160,8 @@ public class fragment_goods extends Fragment {
 
     private void CoffeeItemDataNetworkAddressProcess(View view) {
         ReadFileClass readFileClass = new ReadFileClass();
-        String cite_name = readFileClass.readCoffeeDBAddressText(view);
+        String cite_name = readFileClass.readText(
+                view, fragment_context, "aws_coffee_db_address");
         cite_name_append = cite_name + "/getAll";
     }
 
