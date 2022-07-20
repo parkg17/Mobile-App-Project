@@ -3,6 +3,7 @@ package edu.skku.map.project_2017312665.Register;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -45,9 +46,10 @@ public class RegisterActivity extends AppCompatActivity {
         register_complete_button.setOnClickListener(view -> {
             cite_name = readFileClass.readText(view, mContext, "aws_login_address");
             cite_name_append = cite_name + "/adduser";
+            Log.d("cite_name", cite_name_append);
             new Thread(() -> {
                 NetworkPost networkPost = new NetworkPost();
-                String response = networkPost.post(cite_name, processInputJson());
+                String response = networkPost.post(cite_name_append, processInputJson());
                 processOutputJson(response);
             }).start();
         });
@@ -55,12 +57,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     private String processInputJson() {
         UserNetworkData userData = new UserNetworkData();
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().serializeNulls().create();
 
-        reg_ids = reg_id.getText().toString();
-        reg_pws = reg_pw.getText().toString();
-        reg_names = reg_name.getText().toString();
-        reg_phones = reg_phone.getText().toString();
+        reg_ids = String.valueOf(reg_id.getText());
+        reg_pws = String.valueOf(reg_pw.getText());
+        reg_names = String.valueOf(reg_name.getText());
+        reg_phones = String.valueOf(reg_phone.getText());
 
         userData.setId(reg_ids);
         userData.setPassword(reg_pws);
@@ -77,7 +79,8 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        Gson gson = new GsonBuilder().create();
+        Gson gson = new GsonBuilder().serializeNulls().create();
+
         final LoginResultData loginData = gson.fromJson(response, LoginResultData.class);
 
         boolean login_success = loginData.isSuccess();

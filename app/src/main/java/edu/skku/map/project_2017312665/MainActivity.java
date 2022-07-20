@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        Gson gson = new GsonBuilder().create();
+        Gson gson = new GsonBuilder().serializeNulls().create();
         final UserInfoData userInfoData = gson.fromJson(response, UserInfoData.class);
 
         userInfoDataSuccess = userInfoData.isSuccess();
