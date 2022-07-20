@@ -1,8 +1,8 @@
 package edu.skku.map.project_2017312665.Data;
 
 public class LoginResultData {
-    private boolean success;
-    private String result_detail;
+    private final boolean success;
+    private final String result_detail;
 
     public LoginResultData(boolean success, String result_detail) {
         this.success = success;
@@ -13,15 +13,8 @@ public class LoginResultData {
         return success;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
     public String getResult_detail() {
         return result_detail;
     }
 
-    public void setResult_detail(String result_detail) {
-        this.result_detail = result_detail;
-    }
 }

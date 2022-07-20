@@ -2,33 +2,24 @@ package edu.skku.map.project_2017312665.ShoppingMall;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import edu.skku.map.project_2017312665.Data.CoffeeItemData;
 import edu.skku.map.project_2017312665.Data.Grade;
-import edu.skku.map.project_2017312665.Data.LoginResultData;
 import edu.skku.map.project_2017312665.NetworkPost;
 import edu.skku.map.project_2017312665.R;
 import edu.skku.map.project_2017312665.ReadFileClass;
@@ -65,30 +56,26 @@ public class fragment_goods extends Fragment {
 
 
     public void sortCoffeeItemArray(View view, String sort_criteria) {
-        items = getGoods(view, sort_criteria);
+        items = getGoods(sort_criteria);
         shoppingMallAdapter = new ShoppingMallAdapter(view.getContext(), items);
         coffee_list.setAdapter(shoppingMallAdapter);
     }
 
-    public ArrayList<CoffeeItemData> getGoods(View view, String sort_criteria) {
+    public ArrayList<CoffeeItemData> getGoods(String sort_criteria) {
 
-        ArrayList<CoffeeItemData> items = new ArrayList<CoffeeItemData>();
+        ArrayList<CoffeeItemData> items = new ArrayList<>();
 
-        Thread CoffeeItemThread = new Thread() {
-            @Override
-            public void run() {
-                NetworkPost networkPost = new NetworkPost();
-                String response = networkPost.post(cite_name_append, "");
-                CoffeeItemJsonData = response;
-            }
-        };
+        Thread CoffeeItemThread = new Thread(() -> {
+            NetworkPost networkPost = new NetworkPost();
+            CoffeeItemJsonData = networkPost.post(cite_name_append, "{}");
+        });
 
         CoffeeItemThread.start();
 
         try {
             CoffeeItemThread.join();
         } catch (InterruptedException e) {
-            System.err.println(e.toString());
+            e.printStackTrace();
         }
 
         if (CoffeeItemJsonData.equals("") || CoffeeItemJsonData.equals("ERROR")) {
@@ -125,7 +112,7 @@ public class fragment_goods extends Fragment {
 
     private JSONArray SortArray(JSONArray jsonArray, String sort_criteria) {
         JSONArray sortedJsonArray = new JSONArray();
-        List<JSONObject> jsonValues = new ArrayList<JSONObject>();
+        List<JSONObject> jsonValues = new ArrayList<>();
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
                 jsonValues.add(jsonArray.getJSONObject(i));
@@ -168,7 +155,7 @@ public class fragment_goods extends Fragment {
     private void setInit(View view) {
         coffee_list = view.findViewById(R.id.CoffeeListview);
         spinner = view.findViewById(R.id.sort_standard_spinner);
-        items = getGoods(view, "기본순");
+        items = getGoods("기본순");
         shoppingMallAdapter = new ShoppingMallAdapter(view.getContext(), items);
         coffee_list.setAdapter(shoppingMallAdapter);
         sortJsonArrayClass = new SortJsonArrayClass();

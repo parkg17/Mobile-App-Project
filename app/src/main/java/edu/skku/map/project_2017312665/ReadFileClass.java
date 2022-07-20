@@ -1,7 +1,6 @@
 package edu.skku.map.project_2017312665;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 
 import java.io.ByteArrayOutputStream;
@@ -24,7 +23,7 @@ public class ReadFileClass {
                 byteArrayOutputStream.write(idx);
                 idx = inputStream.read();
             }
-            data = new String(byteArrayOutputStream.toByteArray(),"MS949");
+            data = byteArrayOutputStream.toString("MS949");
             inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();

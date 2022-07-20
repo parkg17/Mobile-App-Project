@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -23,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
     /* Declare Variables */
     private String input_ids;
-    private String input_pws;
     private String cite_name;
     private String cite_name_append;
     private Button guest_login_button;
@@ -32,10 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText input_pw;
     private ReadFileClass readFileClass;
     private boolean isNewActivity;
-    private boolean login_success;
-    private String login_resultDetail;
     private ToastMessageInThread toastMessageInThread;
-    private boolean userInfoDataSuccess;
     private String userInfoDataName;
     private String userInfoDataPhoneNum;
     private Thread getUserInfoThread;
@@ -69,26 +63,25 @@ public class MainActivity extends AppCompatActivity {
         Gson gson = new Gson();
 
         input_ids = input_id.getText().toString();
-        input_pws = input_pw.getText().toString();
+        String input_pws = input_pw.getText().toString();
         userLoginData.setId(input_ids);
         userLoginData.setPw(input_pws);
 
-        String input_json = gson.toJson(userLoginData, UserLoginNetworkData.class);
-        return input_json;
+        return gson.toJson(userLoginData, UserLoginNetworkData.class);
     }
 
     private void processOutputJson(String response) {
-        if(response == "ERROR") {
+        if(response.equals("ERROR")) {
             toastMessageInThread.ToastMessage(getApplicationContext(), "네트워크 에러 발생");
             return;
         }
 
         Gson gson = new GsonBuilder().create();
         final LoginResultData loginData = gson.fromJson(response, LoginResultData.class);
-        login_success = loginData.isSuccess();
-        login_resultDetail = loginData.getResult_detail();
+        boolean login_success = loginData.isSuccess();
+        String login_resultDetail = loginData.getResult_detail();
 
-        if(login_success == false) {
+        if(!login_success) {
             if(login_resultDetail.equals("wrong_id")) {
                 toastMessageInThread.ToastMessage(getApplicationContext(), "등록되지 않은 회원입니다.");
             }
@@ -100,17 +93,16 @@ public class MainActivity extends AppCompatActivity {
             isNewActivity = true;
         }
         if(isNewActivity)  {
-            getUserName(input_ids);
+            getUserName();
             try {
                 getUserInfoThread.join();
             } catch (InterruptedException e) {
-
+                e.printStackTrace();
             }
 
             isNewActivity = false;
             Intent intent = new Intent(MainActivity.this, ShoppingMallActivity.class);
             intent.putExtra("User_ID", input_ids);
-            intent.putExtra("User_PW", input_pws);
             intent.putExtra("User_NAME", userInfoDataName);
             intent.putExtra("User_PHONE_NUM", userInfoDataPhoneNum);
             startActivity(intent);
@@ -127,21 +119,18 @@ public class MainActivity extends AppCompatActivity {
         isNewActivity = false;
     }
 
-    private void getUserName(String id) {
+    private void getUserName() {
         cite_name_append = cite_name + "/getuser";
-        getUserInfoThread = new Thread() {
-            @Override
-            public void run() {
-                NetworkPost networkPost = new NetworkPost();
-                String response = networkPost.post(cite_name_append, processInputJson());
-                processOutputJsonUserInfo(response);
-            }
-        };
+        getUserInfoThread = new Thread(() -> {
+            NetworkPost networkPost = new NetworkPost();
+            String response = networkPost.post(cite_name_append, processInputJson());
+            processOutputJsonUserInfo(response);
+        });
         getUserInfoThread.start();
     }
 
     private void processOutputJsonUserInfo(String response) {
-        if (response == "ERROR") {
+        if (response.equals("ERROR")) {
             toastMessageInThread.ToastMessage(getApplicationContext(), "네트워크 에러 발생");
             userInfoDataName = "Unknown";
             userInfoDataPhoneNum = "Unknown";
@@ -151,11 +140,11 @@ public class MainActivity extends AppCompatActivity {
         Gson gson = new GsonBuilder().serializeNulls().create();
         final UserInfoData userInfoData = gson.fromJson(response, UserInfoData.class);
 
-        userInfoDataSuccess = userInfoData.isSuccess();
+        boolean userInfoDataSuccess = userInfoData.isSuccess();
         userInfoDataName = userInfoData.getName();
         userInfoDataPhoneNum = userInfoData.getPhone_num();
 
-        if(userInfoDataSuccess != true) {
+        if(!userInfoDataSuccess) {
             userInfoDataName = "Unknown";
             userInfoDataPhoneNum = "Unknown";
         }

@@ -1,5 +1,6 @@
 package edu.skku.map.project_2017312665.ShoppingMall;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,22 +17,26 @@ public class fragment_information extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_information, container, false);
         Bundle bundle = getArguments();
+        assert bundle != null;
         String print_id = bundle.getString("id");
         String print_name = bundle.getString("name");
         String print_phone = bundle.getString("phone");
 
-        TextView Stringid = (TextView) view.findViewById(R.id.textView_id);
-        TextView Stringname = (TextView) view.findViewById(R.id.textView_name);
-        TextView Stringphone = (TextView) view.findViewById(R.id.textView_phone);
+        TextView textView_id = (TextView) view.findViewById(R.id.textView_id);
+        TextView textView_name = (TextView) view.findViewById(R.id.textView_name);
+        TextView textView_phone = (TextView) view.findViewById(R.id.textView_phone);
         Button logout_btn = (Button) view.findViewById(R.id.logout);
 
-        Stringid.setText(print_id);
-        Stringname.setText(print_name);
-        Stringphone.setText(print_phone);
+        textView_id.setText(print_id);
+        textView_name.setText(print_name);
+        textView_phone.setText(print_phone);
 
-        logout_btn.setOnClickListener(v -> {
-            getActivity().finish();
-        });
+        Activity activity = getActivity();
+        if (activity == null || getContext() == null) {
+            return view;
+        }
+
+        logout_btn.setOnClickListener(v -> activity.finish());
 
         return view;
     }

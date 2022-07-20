@@ -1,11 +1,8 @@
 package edu.skku.map.project_2017312665.CoffeeGoods;
 
-import static java.lang.String.valueOf;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -19,11 +16,8 @@ import edu.skku.map.project_2017312665.ReadFileClass;
 public class ImageActivity extends AppCompatActivity {
 
     /* Declare Variables */
-    private int iResId;
     private Context mContext;
     private String coffee_id;
-    private String image_path;
-    private String cite_name;
     private ImageView imageView;
     private ReadFileClass readFileClass;
     private View view;
@@ -46,8 +40,8 @@ public class ImageActivity extends AppCompatActivity {
 
     private void process_image() {
         if (view != null) {
-            cite_name = readFileClass.readText(view, mContext, "aws_image_address");
-            image_path = cite_name + coffee_id + ".jpg";
+            String cite_name = readFileClass.readText(view, mContext, "aws_image_address");
+            String image_path = cite_name + coffee_id + ".jpg";
             Glide.with(view).load(image_path).into(imageView);
         }
         else {
@@ -64,8 +58,6 @@ public class ImageActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.image_full);
         readFileClass = new ReadFileClass();
 
-        imageView.setOnClickListener(view -> {
-            supportFinishAfterTransition();
-        });
+        imageView.setOnClickListener(view -> supportFinishAfterTransition());
     }
 }

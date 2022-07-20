@@ -3,14 +3,11 @@ package edu.skku.map.project_2017312665.ShoppingMall;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 import edu.skku.map.project_2017312665.CoffeeGoods.CoffeeGoodsActivity;
 import edu.skku.map.project_2017312665.Data.Grade;
@@ -20,7 +17,6 @@ public class ShoppingMallActivity extends AppCompatActivity {
 
     /* Declare Variables */
     private String user_id;
-    private String user_pw;
     private String user_name;
     private String user_phone;
     public static Context mContext;
@@ -35,22 +31,18 @@ public class ShoppingMallActivity extends AppCompatActivity {
         getData();
         setInit();
 
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.item1:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment_goods).commit();
-                        break;
-                    case R.id.item2:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment_information).commit();
-                        break;
-                    case R.id.item3:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment_shopping_cart).commit();
-                        break;
-                }
-                return true;
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            long itemId = item.getItemId();
+            if(itemId == R.id.item1) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment_goods).commit();
             }
+            else if(itemId == R.id.item2) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment_information).commit();
+            }
+            else if(itemId == R.id.item3) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment_shopping_cart).commit();
+            }
+            return true;
         });
     }
 
@@ -71,7 +63,6 @@ public class ShoppingMallActivity extends AppCompatActivity {
     private void getData() {
         Intent intent = getIntent();
         user_id = intent.getStringExtra("User_ID");
-        user_pw = intent.getStringExtra("User_PW");
         user_name = intent.getStringExtra("User_NAME");
         user_phone = intent.getStringExtra("User_PHONE_NUM");
     }

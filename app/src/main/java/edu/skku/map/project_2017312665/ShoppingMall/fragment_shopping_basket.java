@@ -22,7 +22,7 @@ public class fragment_shopping_basket extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_shopping_basket, container, false);
 
         coffee_list = view.findViewById(R.id.Coffeebasket);
-        items = new ArrayList<CoffeeItemData>();
+        items = new ArrayList<>();
         shoppingMallAdapter = new ShoppingMallAdapter(view.getContext(), items);
 
         items.add(new CoffeeItemData("kenya", "케냐 스페셜 카투리리 AA", 12,1111, 0.0, Grade.Advanced, "2023-02-02", "풍부한 아로마, 청량감이 느껴지는 인산이 강한 산미," +

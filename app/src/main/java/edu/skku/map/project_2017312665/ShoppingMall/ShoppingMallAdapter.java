@@ -1,7 +1,6 @@
 package edu.skku.map.project_2017312665.ShoppingMall;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,8 @@ import edu.skku.map.project_2017312665.ReadFileClass;
 
 public class ShoppingMallAdapter extends BaseAdapter {
 
-    private ArrayList<CoffeeItemData> items;
-    private Context mContext;
+    private final ArrayList<CoffeeItemData> items;
+    private final Context mContext;
 
     ShoppingMallAdapter(Context mContext, ArrayList<CoffeeItemData> items) {
         this.mContext = mContext;
@@ -54,9 +53,9 @@ public class ShoppingMallAdapter extends BaseAdapter {
         String input_coffee_id = items.get(i).getId();
         String input_coffee_name = items.get(i).getName();
         Integer input_coffee_stock = items.get(i).getStock();
-        Double input_coffee_price = items.get(i).getPrice();
-        String input_coffee_price_str = String.valueOf(input_coffee_price) + "원";
-        Double input_coffee_rating = items.get(i).getRating();
+        double input_coffee_price = items.get(i).getPrice();
+        String input_coffee_price_str = input_coffee_price + "원";
+        double input_coffee_rating = items.get(i).getRating();
         Grade input_coffee_grade = items.get(i).getGrade();
         String input_coffee_expiredDate = items.get(i).getExpiredDate();
         String input_coffee_description = items.get(i).getDescription();
@@ -76,19 +75,15 @@ public class ShoppingMallAdapter extends BaseAdapter {
         Glide.with(view).load(image_path).into(imageview_coffee);
 
         /* List Item Click Event */
-        View view_array[] = new View[] {textview_coffee_name, textview_coffee_price,
+        View[] view_array = new View[] {textview_coffee_name, textview_coffee_price,
                                         textview_coffee_description, imageview_coffee};
 
         for (int view_idx = 0; view_idx < 4; ++view_idx) {
-            view_array[view_idx].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            view_array[view_idx].setOnClickListener(v ->
                     ((ShoppingMallActivity)ShoppingMallActivity.mContext).open_CoffeeGoodsActivity(
-                            input_coffee_id, input_coffee_name, input_coffee_stock, input_coffee_price,
-                            input_coffee_rating, input_coffee_grade, input_coffee_expiredDate,
-                            input_coffee_description);
-                }
-            });
+                        input_coffee_id, input_coffee_name, input_coffee_stock, input_coffee_price,
+                        input_coffee_rating, input_coffee_grade, input_coffee_expiredDate,
+                        input_coffee_description));
         }
 
         return view;

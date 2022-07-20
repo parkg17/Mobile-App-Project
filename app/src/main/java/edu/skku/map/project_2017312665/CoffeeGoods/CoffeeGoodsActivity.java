@@ -4,7 +4,6 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -22,7 +21,6 @@ import edu.skku.map.project_2017312665.ReadFileClass;
 public class CoffeeGoodsActivity extends AppCompatActivity {
 
     /* Declare Variables */
-    private int iResId;
     private String coffee_id;
     private String coffee_name;
     private Integer coffee_stock;
@@ -93,7 +91,7 @@ public class CoffeeGoodsActivity extends AppCompatActivity {
         imageview_coffee  = (ImageView) findViewById(R.id.coffee_goods_image);
 
         textview_coffee_name.setText(coffee_name);
-        textview_coffee_price.setText(String.valueOf(coffee_price) + "원");
+        textview_coffee_price.setText(coffee_price + "원");
         textview_coffee_description.setText(coffee_description);
 
         btn_back = (ImageButton) findViewById(R.id.Btn_back);
